@@ -1,0 +1,13 @@
+# Secrets — never commit
+.env
+
+# Logs
+ambient_ai.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
