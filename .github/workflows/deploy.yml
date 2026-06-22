@@ -18,6 +18,9 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+env:
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
