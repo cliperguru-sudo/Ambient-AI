@@ -16,7 +16,7 @@ load_dotenv()
 
 # --- Gemini AI Settings ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")       # Required
-GEMINI_MODEL = "gemini-1.5-pro"                     # Do not change
+GEMINI_MODEL = "gemini-2.5-flash"                     # Do not change
 
 # --- Audio Settings ---
 SAMPLE_RATE = 16000                                # Hz — required by Whisper
