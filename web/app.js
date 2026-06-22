@@ -14,7 +14,7 @@ const STORE_KEY = "ambient-ai-settings";
 
 const DEFAULTS = {
   apiKey: "",
-  model: "gemini-2.0-flash",
+  model: "gemini-2.5-flash",
   cooldown: 15,
   sensitivity: 1, // 0 = reluctant, 1 = balanced, 2 = eager
   voiceURI: "",
