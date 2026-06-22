@@ -52,13 +52,15 @@ aloud.
 ### Deploy to GitHub Pages (automatic)
 
 A GitHub Actions workflow (`.github/workflows/deploy.yml`) publishes `web/` to
-GitHub Pages on every push to `main`. To enable it once:
+GitHub Pages on every push to `main`. The workflow enables Pages automatically
+(`configure-pages` with `enablement: true`), so no manual repo setting is
+required — just let the workflow run.
 
-1. In the repo, go to **Settings → Pages**.
-2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+After a push to `main` (or a manual run from the **Actions** tab via
+**Run workflow**), the app is live at `https://<owner>.github.io/Ambient-AI/`.
 
-After the next push to `main` (or a manual run from the Actions tab), the app is
-live at `https://<owner>.github.io/Ambient-AI/`.
+> If your org restricts Actions from enabling Pages, enable it once manually:
+> **Settings → Pages → Build and deployment → Source → GitHub Actions**.
 
 ## Python pipeline
 
