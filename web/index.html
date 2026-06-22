@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="Ambient AI — a voice assistant that listens silently and only speaks when it can genuinely help." />
+  <title>Ambient AI · Voice Mode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Top bar -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span class="brand-name">Ambient&nbsp;AI</span>
+        <span class="brand-tag">voice mode</span>
+      </div>
+      <div class="topbar-actions">
+        <button id="clearBtn" class="icon-btn" title="Clear conversation" aria-label="Clear conversation">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M9 3v1H4v2h16V4h-5V3H9zm-3 6 1 12h10l1-12H6zm3 2h2v8H9v-8zm4 0h2v8h-2v-8z"/></svg>
+        </button>
+        <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19.14 12.94a7.99 7.99 0 0 0 .05-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.3 7.3 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.58.24-1.12.55-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.32 8.84a.5.5 0 0 0 .12.64l2.03 1.58a8.07 8.07 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.42.32.66.22l2.39-.96c.5.39 1.04.7 1.62.94l.36 2.54c.04.24.25.42.5.42h3.84c.25 0 .46-.18.5-.42l.36-2.54c.58-.24 1.12-.55 1.62-.94l2.39.96c.24.1.52.02.66-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.06-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main stage -->
+    <main class="stage">
+      <div class="orb-wrap" id="orbWrap" data-state="idle">
+        <div class="orb-glow"></div>
+        <div class="orb">
+          <div class="orb-core"></div>
+          <div class="orb-ring orb-ring-1"></div>
+          <div class="orb-ring orb-ring-2"></div>
+        </div>
+      </div>
+
+      <p class="status-line" id="statusLine">Press start to begin listening</p>
+      <p class="interim" id="interim" aria-live="polite"></p>
+
+      <button id="micBtn" class="mic-btn" aria-pressed="false">
+        <span class="mic-btn-label">Start listening</span>
+      </button>
+      <p class="hint" id="hint">It listens continuously and only speaks when it can genuinely help.</p>
+    </main>
+
+    <!-- Transcript drawer -->
+    <button id="transcriptToggle" class="transcript-toggle" aria-expanded="false">
+      <span>Conversation</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+    </button>
+    <section class="transcript" id="transcript" aria-label="Conversation transcript">
+      <div class="transcript-empty" id="transcriptEmpty">No conversation yet. Start listening and talk naturally.</div>
+      <div class="transcript-list" id="transcriptList"></div>
+    </section>
+  </div>
+
+  <!-- Settings modal -->
+  <div class="modal-backdrop" id="settingsModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="modal-head">
+        <h2 id="settingsTitle">Settings</h2>
+        <button id="closeSettings" class="icon-btn" aria-label="Close settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.29 19.7 2.88 18.3 9.17 12 2.88 5.71 4.29 4.29l6.3 6.3 6.3-6.3z"/></svg>
+        </button>
+      </div>
+
+      <label class="field">
+        <span class="field-label">Gemini API key</span>
+        <input type="password" id="apiKey" placeholder="AIza..." autocomplete="off" spellcheck="false" />
+        <span class="field-help">
+          Get a free key at
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a>.
+          Stored only in this browser.
+        </span>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Model</span>
+        <select id="model">
+          <option value="gemini-2.0-flash">gemini-2.0-flash (free, fast)</option>
+          <option value="gemini-1.5-flash">gemini-1.5-flash (free)</option>
+          <option value="gemini-1.5-flash-8b">gemini-1.5-flash-8b (free, fastest)</option>
+          <option value="gemini-1.5-pro">gemini-1.5-pro (limited free tier)</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Cooldown: <strong id="cooldownVal">15s</strong></span>
+        <input type="range" id="cooldown" min="0" max="60" step="1" value="15" />
+        <span class="field-help">Minimum seconds between spoken replies.</span>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Eagerness: <strong id="sensitivityVal">Balanced</strong></span>
+        <input type="range" id="sensitivity" min="0" max="2" step="1" value="1" />
+        <span class="field-help">How readily the assistant chooses to speak.</span>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Voice</span>
+        <select id="voice"><option value="">System default</option></select>
+      </label>
+
+      <div class="field field-row">
+        <label class="switch">
+          <input type="checkbox" id="speakReplies" checked />
+          <span>Speak replies aloud</span>
+        </label>
+      </div>
+
+      <button id="saveSettings" class="primary-btn">Save</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
