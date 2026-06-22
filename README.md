@@ -1,4 +1,4 @@
-# Ambient Conversational AI Assistant
+# Ambient Conversational AI Assistant 
 
 An ambient voice assistant that runs silently in a room, continuously listens to
 everyone speaking, and only speaks up when it can genuinely add value — like a
