@@ -6,7 +6,63 @@ knowledgeable friend who stays quiet almost all the time. There is no wake word:
 it listens always and speaks almost never, intervening only when there is a clear,
 answerable factual gap in the conversation.
 
-## How it works
+It ships in two forms:
+
+- **Web app (voice mode)** — a polished, ChatGPT/Claude-style voice UI that runs
+  entirely in the browser and deploys to GitHub Pages. No install required. See
+  [Web app (voice mode)](#web-app-voice-mode).
+- **Python pipeline** — the original headless/server implementation using
+  Whisper, pyannote, and pyttsx3. See [Python pipeline](#python-pipeline).
+
+## Get a free Gemini API key
+
+Both versions need a Google Gemini API key. The free tier is plenty:
+
+1. Go to <https://aistudio.google.com/app/apikey>
+2. Sign in with any Google account.
+3. Click **Create API key** → **Create API key in new project**.
+4. Copy the key (starts with `AIza...`).
+
+The free tier covers `gemini-2.0-flash` and `gemini-1.5-flash` with generous
+rate limits.
+
+## Web app (voice mode)
+
+The `web/` folder is a self-contained static app (HTML/CSS/JS, no build step).
+It uses the browser's Web Speech API for continuous listening and speaking, and
+calls Gemini directly from the browser. Your API key is stored only in your
+browser's `localStorage` — it is never committed or sent anywhere except Google.
+
+### Run it locally
+
+```bash
+# Any static server works; the app is plain HTML/CSS/JS.
+cd web
+python -m http.server 8000
+# then open http://localhost:8000
+```
+
+Open settings (gear icon), paste your Gemini API key, then press **Start
+listening** and talk naturally. The orb reacts to your voice; the assistant
+stays silent until it can genuinely help, then replies in a chat bubble and
+aloud.
+
+> Speech recognition requires a Chromium-based browser (Chrome or Edge).
+
+### Deploy to GitHub Pages (automatic)
+
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) publishes `web/` to
+GitHub Pages on every push to `main`. To enable it once:
+
+1. In the repo, go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+
+After the next push to `main` (or a manual run from the Actions tab), the app is
+live at `https://<owner>.github.io/Ambient-AI/`.
+
+## Python pipeline
+
+### How it works
 
 Audio is captured from the microphone in 3-second chunks, transcribed with
 OpenAI Whisper, optionally labeled by speaker (pyannote.audio), and appended to a
